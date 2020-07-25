@@ -1,0 +1,26 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'mydb'
+      MYSQL_USER: 'user'
+      MYSQL_ROOT_PASSWORD: 'abced'
+    volumes:
+      - ./mysql:/var/lib/mysql
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+  tomcat:
+    image: tomcat:latest
+    container_name: tomcat-web
+    volumes:
+      - ./target/war-test.war:/usr/local/tomcat/webapps/war-test.war
+    ports:
+      - "8084:8080"
+    expose:
+      - '8084'
+    links:
+      - mysql
